@@ -2,6 +2,11 @@
 
 Production-grade AI agent and automation system with workflow orchestration, tool calling, memory, scheduling, and observability.
 
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-Production-green)
+![AI](https://img.shields.io/badge/AI-Agents-orange)
+![License](https://img.shields.io/badge/license-MIT-blue)
+
 ## Overview
 
 This project is a modular backend platform for building AI agents that can:
