@@ -30,6 +30,24 @@ app/
   agents/
   orchestration/
   tools/
+
+## Example Workflow
+
+### Input Task
+"Summarize customer support tickets and generate a report."
+
+### System Execution
+
+1. Planner Agent creates execution steps
+2. Executor Agent runs tools
+3. Results are aggregated
+4. Output is returned
+
+### Output
+
+- Key issues identified
+- Priority classification
+- Suggested actions
   memory/
   workers/
   db/
