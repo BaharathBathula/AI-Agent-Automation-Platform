@@ -1,27 +1,17 @@
-from typing import List
+from app.services.llm_service import LLMService
 
 
 class PlannerAgent:
-    """
-    Responsible for breaking down user tasks into structured steps.
-    """
 
     def __init__(self):
-        pass
+        self.llm = LLMService()
 
-    def create_plan(self, task: str) -> List[str]:
-        """
-        Convert user input into step-by-step execution plan.
-        """
+    def create_plan(self, task: str):
 
-        # Simple rule-based plan (will upgrade later with LLM)
-        steps = [
-            "Understand the task",
-            "Identify required data sources",
-            "Select appropriate tools",
-            "Execute step-by-step actions",
-            "Aggregate results",
-            "Generate final response"
+        response = self.llm.generate(task)
+
+        return [
+            "Analyze task",
+            "Generate plan using LLM",
+            response
         ]
-
-        return steps
