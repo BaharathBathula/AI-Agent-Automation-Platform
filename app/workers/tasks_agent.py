@@ -5,10 +5,13 @@ from app.services.audit_service import AuditService
 from app.orchestration.agent_runner import AgentRunner
 
 
-@celery_app.task(name="execute_agent_task")
-def execute_agent_task(task_id: int, prompt: str):
+@celery_app.task(
+    name="execute_agent_task",
+    autoretry_for=(Exception,),
+    retry_kwargs={"max_retries": 3, "countdown": 5},
+)
 
-    db = SessionLocal()
+db = SessionLocal()
 
     # Create run
     run = RunService.create_run(db, task_id)
