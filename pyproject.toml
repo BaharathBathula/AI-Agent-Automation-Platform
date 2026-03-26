@@ -1,0 +1,20 @@
+[project]
+name = "agent-automation-platform"
+version = "0.1.0"
+description = "Production-grade AI agent and automation system"
+requires-python = ">=3.11"
+
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic",
+    "pydantic-settings",
+    "sqlalchemy",
+    "psycopg[binary]",
+    "celery",
+    "redis",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
