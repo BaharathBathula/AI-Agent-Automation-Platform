@@ -95,3 +95,28 @@ app/
     "results": [...]
   }
 }
+## System Architecture
+
+- FastAPI handles incoming API requests
+- Tasks are stored in PostgreSQL
+- Celery processes tasks asynchronously
+- AgentRunner orchestrates execution
+- Planner + Executor agents perform reasoning
+- Memory layer stores context
+- Audit logs track system activity
+
+## Async Execution Flow
+
+1. User submits task
+2. Task is queued via Celery
+3. Worker picks up task
+4. Agent executes workflow
+5. Results stored and logged
+6. User checks status via Run API
+
+## Automation Capabilities
+
+- Background execution
+- Scheduled workflows
+- Scalable worker architecture
+- Fault-tolerant retries
