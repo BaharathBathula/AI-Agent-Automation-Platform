@@ -125,3 +125,42 @@ app/
 
 ```bash
 celery -A app.workers.celery_app.celery_app worker --loglevel=info
+
+## Advanced AI Capabilities
+
+- Multi-agent orchestration (Planner + Executor)
+- Tool calling system (extensible tools)
+- Vector-based memory (RAG-ready)
+- LLM integration (OpenAI-ready)
+- Async task execution (Celery)
+- Scheduled automation workflows
+- Retry and fault tolerance
+- Execution observability
+
+## Architecture Highlights
+
+This system is designed as a production-grade AI automation backend with:
+
+- Modular agent architecture
+- Distributed task execution
+- Memory-driven reasoning
+- Pluggable tools
+- Full execution lifecycle tracking
+
+## Why This Project Matters
+
+This project demonstrates:
+
+- AI system design
+- backend engineering at scale
+- distributed systems (Celery + Redis)
+- real-world automation use cases
+- production architecture patterns
+
+## Future Roadmap
+
+- Replace mock vector store with FAISS / Pinecone
+- Add real web search API integration
+- Build frontend dashboard
+- Add role-based access control (RBAC)
+- Implement streaming responses
