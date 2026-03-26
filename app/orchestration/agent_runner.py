@@ -35,3 +35,9 @@ class AgentRunner:
             "plan": plan,
             "results": results
         }
+
+from app.utils.metrics import track_execution
+
+@track_execution
+def run(self, task_prompt: str, run_id: int = None, db=None):
+        
