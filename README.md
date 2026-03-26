@@ -52,3 +52,20 @@ app/
   workers/
   db/
   schemas/
+
+## Execution Flow
+
+1. Task is submitted via API
+2. Task is stored in PostgreSQL
+3. AgentRunner orchestrates execution
+4. Planner generates steps
+5. Executor executes each step
+6. Results returned and logged
+
+## Current Capabilities
+
+- Task persistence
+- Multi-agent orchestration
+- Planner + Executor pipeline
+- Tool registry system
+- Audit-ready architecture
