@@ -1,10 +1,12 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from typing import Optional, Dict, Any
 
 from app.api.deps import get_db
 from app.services.task_service import TaskService
+from app.services.run_service import RunService
+from app.services.audit_service import AuditService
 from app.orchestration.agent_runner import AgentRunner
 
 router = APIRouter()
@@ -21,15 +23,35 @@ class TaskCreateRequest(BaseModel):
 @router.post("/tasks")
 def create_task(payload: TaskCreateRequest, db: Session = Depends(get_db)):
 
-    # 1. Save task
+    # 1. Create task
     task = TaskService.create_task(db, payload)
 
-    # 2. Run agent (sync for now)
-    runner = AgentRunner()
-    result = runner.run(payload.prompt)
+    # 2. Create run
+    run = RunService.create_run(db, task.id)
 
-    return {
-        "task_id": task.id,
-        "status": "completed",
-        "execution": result
-    }
+    try:
+        runner = AgentRunner()
+
+        # 3. Execute agent
+        result = runner.run(payload.prompt, run_id=run.id, db=db)
+
+        # 4. Complete run
+        RunService.complete_run(db, run, str(result))
+
+        return {
+            "task_id": task.id,
+            "run_id": run.id,
+            "status": "completed",
+            "execution": result
+        }
+
+    except Exception as e:
+
+        RunService.fail_run(db, run, str(e))
+
+        return {
+            "task_id": task.id,
+            "run_id": run.id,
+            "status": "failed",
+            "error": str(e)
+        }
