@@ -1,16 +1,18 @@
+from app.memory.vector_store import SimpleVectorStore
+
+
 class MemoryStore:
-    """
-    Simple in-memory store (will upgrade to vector DB later)
-    """
 
     def __init__(self):
-        self.store = {}
+        self.kv_store = {}
+        self.vector_store = SimpleVectorStore()
 
     def save(self, key: str, value: str):
-        self.store[key] = value
+        self.kv_store[key] = value
+        self.vector_store.add(value)
 
     def get(self, key: str):
-        return self.store.get(key)
+        return self.kv_store.get(key)
 
-    def get_all(self):
-        return self.store
+    def search(self, query: str):
+        return self.vector_store.search(query)
