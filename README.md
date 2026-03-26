@@ -2,32 +2,213 @@
 
 Production-grade AI agent and automation system with workflow orchestration, tool calling, memory, scheduling, and observability.
 
+# 🚀 AI Agent & Automation Platform
+
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Production-green)
 ![AI](https://img.shields.io/badge/AI-Agents-orange)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
-## Overview
+---
 
-This project is a modular backend platform for building AI agents that can:
+## 🌟 Overview
 
-- accept tasks
-- plan multi-step actions
-- call tools
-- store memory
-- run scheduled workflows
-- log execution history
+The **AI Agent & Automation Platform** is a production-grade backend system designed to orchestrate intelligent workflows using multi-agent architectures, tool integrations, memory systems, and asynchronous execution.
 
-## Tech Stack
+This project demonstrates how modern AI systems move beyond simple prompts into **autonomous, scalable, and observable automation platforms**.
 
-- FastAPI
-- PostgreSQL
-- Redis
-- Celery
-- SQLAlchemy
-- Docker
+---
 
-## Project Structure
+## 🎯 Key Capabilities
+
+* 🤖 Multi-Agent Orchestration (Planner + Executor)
+* 🧠 Memory Layer (Vector-based, RAG-ready)
+* 🛠️ Tool Calling System (Extensible integrations)
+* ⚡ Async Execution (Celery + Redis)
+* 📊 Execution Tracking (Run lifecycle)
+* 📜 Audit Logging (Traceability & observability)
+* 🔁 Retry & Fault Tolerance
+* ⏱️ Scheduled Automation Workflows
+* 🔌 LLM Integration (OpenAI-ready abstraction)
+
+---
+
+## 🏗️ System Architecture
+
+### High-Level Flow
+
+```text
+User Request → FastAPI → Task Service → Celery Queue → Worker
+→ Agent Runner → Planner → Executor → Tools / Memory
+→ Audit Logs + Database → Response
+```
+
+---
+
+## 🧩 Architecture Components
+
+### 🔹 API Layer (FastAPI)
+
+Handles incoming requests and exposes REST endpoints.
+
+### 🔹 Agent Layer
+
+* **Router Agent** → Determines intent *(future extension)*
+* **Planner Agent** → Breaks tasks into steps
+* **Executor Agent** → Executes steps using tools
+* **Reviewer Agent** → Validates outputs *(future extension)*
+
+### 🔹 Orchestration Layer
+
+Coordinates execution between agents, memory, and tools.
+
+### 🔹 Tool Layer
+
+Pluggable integrations:
+
+* Web search (example)
+* Document processing *(extendable)*
+* External APIs *(future)*
+
+### 🔹 Memory Layer
+
+* Key-value memory
+* Vector-based similarity search (RAG-ready)
+
+### 🔹 Worker Layer (Celery)
+
+Handles:
+
+* Async execution
+* Background processing
+* Scheduling
+
+### 🔹 Database Layer (PostgreSQL)
+
+Stores:
+
+* Tasks
+* Runs
+* Audit logs
+
+### 🔹 Cache / Queue (Redis)
+
+* Task queue
+* Temporary state
+* Messaging backbone
+
+---
+
+## ⚙️ Execution Flow
+
+1. User submits a task via API
+2. Task is stored in PostgreSQL
+3. Task is queued using Celery
+4. Worker processes the task asynchronously
+5. AgentRunner orchestrates execution:
+
+   * Planner generates steps
+   * Executor performs actions
+6. Tools are invoked as needed
+7. Memory stores execution context
+8. Audit logs track all events
+9. Run status is updated and stored
+
+---
+
+## 📡 API Endpoints
+
+### Health
+
+```
+GET /api/v1/health
+```
+
+### Create Task
+
+```
+POST /api/v1/tasks
+```
+
+### Get Run Status
+
+```
+GET /api/v1/runs/{run_id}
+```
+
+---
+
+## 🧪 Example Request
+
+```json
+{
+  "title": "Summarize tickets",
+  "prompt": "Summarize customer support tickets and highlight key issues",
+  "agent_type": "planner_executor",
+  "priority": "medium"
+}
+```
+
+---
+
+## 📤 Example Response
+
+```json
+{
+  "task_id": 1,
+  "status": "queued",
+  "message": "Task submitted for background processing"
+}
+```
+
+---
+
+## 🧠 Example Execution Output
+
+```json
+{
+  "plan": [
+    "Analyze task",
+    "Generate plan using LLM"
+  ],
+  "results": [
+    "Executed: Analyze task",
+    "Search results for: Generate plan using LLM"
+  ]
+}
+```
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer            | Technology          |
+| ---------------- | ------------------- |
+| API              | FastAPI             |
+| Language         | Python 3.11         |
+| Database         | PostgreSQL          |
+| Cache/Queue      | Redis               |
+| Workers          | Celery              |
+| ORM              | SQLAlchemy          |
+| AI Integration   | OpenAI (abstracted) |
+| Containerization | Docker              |
+| CI/CD            | GitHub Actions      |
+
+---
+
+## 🚀 Advanced Features
+
+* ✅ Multi-agent workflow execution
+* ✅ Async distributed architecture
+* ✅ Vector-based memory (RAG-ready)
+* ✅ Tool-based execution model
+* ✅ Retry & resilience handling
+* ✅ Execution observability
+* ✅ Modular scalable design
+
+---
+
+## 📂 Project Structure
 
 ```bash
 app/
@@ -35,137 +216,84 @@ app/
   agents/
   orchestration/
   tools/
-
-## Example Workflow
-
-### Input Task
-"Summarize customer support tickets and generate a report."
-
-### System Execution
-
-1. Planner Agent creates execution steps
-2. Executor Agent runs tools
-3. Results are aggregated
-4. Output is returned
-
-### Output
-
-- Key issues identified
-- Priority classification
-- Suggested actions
   memory/
+  services/
   workers/
   db/
   schemas/
+docs/
+tests/
+scripts/
+docker/
+.github/workflows/
+```
 
-## Execution Flow
+---
 
-1. Task is submitted via API
-2. Task is stored in PostgreSQL
-3. AgentRunner orchestrates execution
-4. Planner generates steps
-5. Executor executes each step
-6. Results returned and logged
+## ▶️ Running the Project (Optional)
 
-## Current Capabilities
+```bash
+docker compose up --build
+```
 
-- Task persistence
-- Multi-agent orchestration
-- Planner + Executor pipeline
-- Tool registry system
-- Audit-ready architecture
+Access API docs:
 
-## Advanced Features
+```
+http://localhost:8000/docs
+```
 
-- Execution lifecycle tracking (RunService)
-- Audit logging for every step
-- Memory layer for contextual reasoning
-- Error handling and retries foundation
-- Modular agent orchestration
+---
 
-## APIs
-
-- POST /api/v1/tasks → create and execute task
-- GET /api/v1/runs/{id} → check execution status
-
-## Example Output
-
-```json
-{
-  "task_id": 1,
-  "run_id": 10,
-  "status": "completed",
-  "execution": {
-    "plan": [...],
-    "results": [...]
-  }
-}
-## System Architecture
-
-- FastAPI handles incoming API requests
-- Tasks are stored in PostgreSQL
-- Celery processes tasks asynchronously
-- AgentRunner orchestrates execution
-- Planner + Executor agents perform reasoning
-- Memory layer stores context
-- Audit logs track system activity
-
-## Async Execution Flow
-
-1. User submits task
-2. Task is queued via Celery
-3. Worker picks up task
-4. Agent executes workflow
-5. Results stored and logged
-6. User checks status via Run API
-
-## Automation Capabilities
-
-- Background execution
-- Scheduled workflows
-- Scalable worker architecture
-- Fault-tolerant retries
-
-## Running Workers (Production)
+## 🔁 Background Workers
 
 ```bash
 celery -A app.workers.celery_app.celery_app worker --loglevel=info
+```
 
-## Advanced AI Capabilities
+---
 
-- Multi-agent orchestration (Planner + Executor)
-- Tool calling system (extensible tools)
-- Vector-based memory (RAG-ready)
-- LLM integration (OpenAI-ready)
-- Async task execution (Celery)
-- Scheduled automation workflows
-- Retry and fault tolerance
-- Execution observability
+## 🔮 Future Enhancements
 
-## Architecture Highlights
+* 🔹 Replace mock vector store with FAISS / Pinecone
+* 🔹 Real-time streaming responses
+* 🔹 Frontend dashboard (React)
+* 🔹 Role-Based Access Control (RBAC)
+* 🔹 Multi-agent collaboration workflows
+* 🔹 Advanced observability (Prometheus + Grafana)
 
-This system is designed as a production-grade AI automation backend with:
+---
 
-- Modular agent architecture
-- Distributed task execution
-- Memory-driven reasoning
-- Pluggable tools
-- Full execution lifecycle tracking
+## 💡 Why This Project Matters
 
-## Why This Project Matters
+This project showcases:
 
-This project demonstrates:
+* Production-grade AI system design
+* Backend engineering at scale
+* Distributed task execution
+* Real-world automation use cases
+* Modern AI architecture patterns
 
-- AI system design
-- backend engineering at scale
-- distributed systems (Celery + Redis)
-- real-world automation use cases
-- production architecture patterns
+---
 
-## Future Roadmap
+## 👨‍💻 Author
 
-- Replace mock vector store with FAISS / Pinecone
-- Add real web search API integration
+**Baharath Bathula**
+
+* AI / Data Engineer
+* Building scalable AI systems & automation platforms
+
+---
+
+## 📜 License
+
+MIT License
+
+---
+
+## ⭐ If you found this useful
+
+Give this repo a ⭐ and share your feedback!
+PI integration
 - Build frontend dashboard
 - Add role-based access control (RBAC)
 - Implement streaming responses
