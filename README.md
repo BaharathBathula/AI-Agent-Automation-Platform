@@ -120,3 +120,8 @@ app/
 - Scheduled workflows
 - Scalable worker architecture
 - Fault-tolerant retries
+
+## Running Workers (Production)
+
+```bash
+celery -A app.workers.celery_app.celery_app worker --loglevel=info
