@@ -45,13 +45,19 @@ def create_task(payload: TaskCreateRequest, db: Session = Depends(get_db)):
             "execution": result
         }
 
-    except Exception as e:
+from app.workers.tasks_agent import execute_agent_task
 
-        RunService.fail_run(db, run, str(e))
+@router.post("/tasks")
+def create_task(payload: TaskCreateRequest, db: Session = Depends(get_db)):
 
-        return {
-            "task_id": task.id,
-            "run_id": run.id,
-            "status": "failed",
-            "error": str(e)
-        }
+    # 1. Save task
+    task = TaskService.create_task(db, payload)
+
+    # 2. Trigger async execution
+    execute_agent_task.delay(task.id, payload.prompt)
+
+    return {
+        "task_id": task.id,
+        "status": "queued",
+        "message": "Task submitted for background processing"
+    }
