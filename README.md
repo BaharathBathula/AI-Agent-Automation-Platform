@@ -69,3 +69,29 @@ app/
 - Planner + Executor pipeline
 - Tool registry system
 - Audit-ready architecture
+
+## Advanced Features
+
+- Execution lifecycle tracking (RunService)
+- Audit logging for every step
+- Memory layer for contextual reasoning
+- Error handling and retries foundation
+- Modular agent orchestration
+
+## APIs
+
+- POST /api/v1/tasks → create and execute task
+- GET /api/v1/runs/{id} → check execution status
+
+## Example Output
+
+```json
+{
+  "task_id": 1,
+  "run_id": 10,
+  "status": "completed",
+  "execution": {
+    "plan": [...],
+    "results": [...]
+  }
+}
